@@ -73,6 +73,7 @@ body { font-family:'Poppins',sans-serif; background:#fafafa; margin:0; }
     align-items:center;
     justify-content:center;
     border:2px solid #ffe0c8;
+    user-select:none;
 }
 .profile-dropdown {
     display:none;
@@ -85,7 +86,7 @@ body { font-family:'Poppins',sans-serif; background:#fafafa; margin:0; }
     padding:8px 0;
     z-index:999;
 }
-.profile-wrap:hover .profile-dropdown { display:block; }
+.profile-dropdown.show { display:block; }
 .profile-dropdown a, .profile-dropdown button {
     display:block;
     width:100%;
@@ -137,10 +138,10 @@ body { font-family:'Poppins',sans-serif; background:#fafafa; margin:0; }
 
         <!-- PROFIL USER -->
         <div class="profile-wrap">
-            <div class="profile-avatar">
+            <div class="profile-avatar" onclick="toggleDropdown()" id="profileBtn">
                 {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
             </div>
-            <div class="profile-dropdown">
+            <div class="profile-dropdown" id="profileDropdown">
                 <div style="padding:10px 18px 6px;font-weight:600;font-size:13px;color:#333">
                     {{ auth()->user()->name ?? 'User' }}
                 </div>
@@ -176,5 +177,18 @@ body { font-family:'Poppins',sans-serif; background:#fafafa; margin:0; }
 <div class="footer">🍜 Katalog Resep • Dibuat dengan Laravel</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function toggleDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    dropdown.classList.toggle('show');
+}
+
+document.addEventListener('click', function(e) {
+    const wrap = document.querySelector('.profile-wrap');
+    if (!wrap.contains(e.target)) {
+        document.getElementById('profileDropdown').classList.remove('show');
+    }
+});
+</script>
 </body>
 </html>
